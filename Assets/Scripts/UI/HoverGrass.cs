@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HoverGrass : MonoBehaviour
@@ -9,7 +10,22 @@ public class HoverGrass : MonoBehaviour
     [SerializeField] private Color originalColor;
     [SerializeField] private SpriteRenderer grass;
 
+    [Header("Show Build UI: ")]
+    [SerializeField] private SelectionSystem buildUI;
+    [SerializeField] [Range(0, 1000)] private int grassTilesInt;
+
     private bool _playOnce;
+    private HoverGrass[] _grassList;
+    private bool _stoppedTime;
+
+    private void Awake()
+    {
+        buildUI = FindObjectOfType<SelectionSystem>();
+        _grassList = FindObjectsOfType<HoverGrass>();
+
+        if (_grassList.Length == grassTilesInt && buildUI != null)
+            buildUI.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
@@ -23,7 +39,12 @@ public class HoverGrass : MonoBehaviour
                 _playOnce = true;
                 select.Play();
             }
-            
+            if (Input.GetMouseButtonDown(0))
+            {
+                buildUI.gameObject.SetActive(true);
+                _stoppedTime = true;
+                Time.timeScale = 0;
+            }
             grass.color = hoverColor;
         }
         else
@@ -31,5 +52,12 @@ public class HoverGrass : MonoBehaviour
             _playOnce = false;
             grass.color = originalColor;
         } 
+
+        if (Input.GetKeyDown(KeyCode.Escape) && _stoppedTime)
+        {
+            Time.timeScale = 1;
+            buildUI.gameObject.SetActive(false);
+            _stoppedTime = false;
+        }
     }
 }
