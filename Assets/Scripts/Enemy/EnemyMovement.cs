@@ -29,6 +29,7 @@ public class EnemyMovement : MonoBehaviour
     public void SetWaypoints(List<Vector2> path)
     {
         _wayPoints = path;
+        enemyLives.value = CurrentLives;
 
         if (_wayPoints == null || _wayPoints.Count == 0)
         {

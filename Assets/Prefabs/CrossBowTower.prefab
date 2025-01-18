@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7762006939575973238}
   - component: {fileID: 7782839272189487961}
   - component: {fileID: 802842515920118317}
-  - component: {fileID: 8437136837940805351}
+  - component: {fileID: 3425082460861838305}
   m_Layer: 0
   m_Name: CrossBowTower
   m_TagString: Untagged
@@ -125,8 +125,8 @@ MonoBehaviour:
   rotSpeed: 150
   projectilePref: {fileID: 8906829297669397639, guid: 4e8e2084e75c5cd469fe1a03ac096372, type: 3}
   delayDur: 0.683
---- !u!61 &8437136837940805351
-BoxCollider2D:
+--- !u!58 &3425082460861838305
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,16 +157,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.18, y: 0.25}
-    newSize: {x: 0.18, y: 0.25}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.00072778977, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.18, y: 0.25}
-  m_EdgeRadius: 0
+  m_Radius: 1.0002291

@@ -7,28 +7,30 @@ public class Projectile : MonoBehaviour
 
     [Header("Projectile Settings: ")]
     [SerializeField] [Range(0, 50)] private float projectileSpeed;
-    private Transform _target;
+    [SerializeField] private Rigidbody2D rb;
 
-    public void SetTarget(Transform target) => _target = target;
+    private Vector2 _dir;
 
-    // Update is called once per frame
-    private void Update()
+    public void SetDir(Vector2 direction) => _dir = direction.normalized;
+
+    private void Start()
     {
-        if (_target == null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        var dir = (_target.position - transform.position).normalized;
-        transform.position += projectileSpeed * Time.deltaTime * dir;
+        rb.velocity = _dir * projectileSpeed;
+        Destroy(gameObject, 10);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyMovement>().CurrentLives -= 1;
+            if (collision.TryGetComponent<EnemyMovement>(out var enemy))
+            {
+                enemy.CurrentLives -= 1;
+
+                if (enemy.CurrentLives <= 0)
+                    Destroy(collision.gameObject);
+            }
+
             Destroy(gameObject);
         }
     }

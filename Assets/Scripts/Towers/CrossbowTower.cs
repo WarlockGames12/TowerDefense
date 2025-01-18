@@ -15,14 +15,18 @@ public class CrossbowTower : MonoBehaviour
     [SerializeField][Range(0, 10)] private float delayDur;
 
     private Transform _target = null;
-    private List<Transform> _enemiesInRange = new();
+    private readonly List<Transform> _enemiesInRange = new();
     private bool _isShooting;
 
     // Start is called before the first frame update
     private void Start() => StartCoroutine(TargetEnemy());
 
     // Update is called once per frame
-    private void Update() => RotateTowardsTarget();
+    private void Update()
+    {
+        GetComponent<CircleCollider2D>().radius = detectionRange;
+        RotateTowardsTarget();
+    }
 
     private void RotateTowardsTarget()
     {
@@ -56,10 +60,14 @@ public class CrossbowTower : MonoBehaviour
         while(_target != null && _enemiesInRange.Contains(_target))
         {
             var projectile = Instantiate(projectilePref, transform.position, transform.rotation);
-            var projectScript = projectile.GetComponent<Projectile>();
-
-            if (projectScript != null)
-                projectScript.SetTarget(_target);
+            var projectileScript = projectile.GetComponent<Projectile>();
+            if (projectileScript != null)
+            {
+                var direction = (_target.position - transform.position).normalized; 
+                projectileScript.SetDir(direction);
+            }
+            else
+                Debug.LogError("Projectile script is missing on the projectile prefab!");
 
             yield return new WaitForSeconds(delayDur);
         }
@@ -88,7 +96,6 @@ public class CrossbowTower : MonoBehaviour
                 closestDistance = distance;
             }
         }
-        Debug.Log(closestEnemy);
         return closestEnemy;
     }
 
@@ -96,11 +103,7 @@ public class CrossbowTower : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
-        {
             _enemiesInRange.Add(collision.transform);
-            Debug.Log(_enemiesInRange);
-        }
-            
     }
 
     private void OnTriggerExit2D(Collider2D collision)
