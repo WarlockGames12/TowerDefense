@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class EnemyMovement : MonoBehaviour
     private int _currentWayPointIndex = 0;
     private PlayerUI _playerUI;
 
+    public event Action OnReachEndAction;
     private Transform _targetTower;
     private readonly List<Transform> _towersInRange = new();
     private bool _isShooting;
@@ -39,9 +41,7 @@ public class EnemyMovement : MonoBehaviour
         enemyLives.value = CurrentLives;
 
         if (shootsBack)
-        {
             StartCoroutine(TargetTower());
-        }
     }
 
     public void SetWaypoints(List<Vector2> path)
@@ -181,6 +181,7 @@ public class EnemyMovement : MonoBehaviour
     private void OnReachEnd()
     {
         _playerUI.DepleteHealth();
+        OnReachEndAction?.Invoke();
         Destroy(gameObject);
     }
 

@@ -217,6 +217,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 419266339756469427, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
+      propertyPath: m_Value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 419266339756469427, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
+      propertyPath: m_MaxValue
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

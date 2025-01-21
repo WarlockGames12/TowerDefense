@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd0469ecb48dc6408c16bf8fc16b318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountCoinsDug: 5
-  waitTime: 10
+  amountCoinsDug: 10
+  waitTime: 5
   showSprite:
   - {fileID: -87655467, guid: 304b5f627ede7e345a21da6c198517ec, type: 3}
   - {fileID: 104968470, guid: 304b5f627ede7e345a21da6c198517ec, type: 3}

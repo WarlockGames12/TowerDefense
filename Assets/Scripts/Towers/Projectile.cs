@@ -51,6 +51,9 @@ public class Projectile : MonoBehaviour
                 Destroy(particleSplatter, 0.5f);
                 enemy.CurrentLives -= damage;
 
+                var spawner = FindObjectOfType<EnemySpawner>();
+                spawner.RemoveEnemyFromList(collision.gameObject);
+
                 if (enemy.CurrentLives <= 0)
                 {
                     Instantiate(bloodSplatter[Random.Range(1,4)], collision.transform.position, Quaternion.identity);

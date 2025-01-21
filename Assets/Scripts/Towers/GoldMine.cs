@@ -8,7 +8,7 @@ public class GoldMine : MonoBehaviour
 
     [Header("Gold Mine Settings: ")]
     [SerializeField] private int amountCoinsDug;
-    [SerializeField] [Range(0, 15)] private float waitTime;
+    [SerializeField][Range(0, 15)] private float waitTime;
     [SerializeField] private Sprite[] showSprite;
     [SerializeField] private SpriteRenderer showRender;
     [SerializeField] private LayerMask mineMask;
@@ -22,6 +22,8 @@ public class GoldMine : MonoBehaviour
     private int _currentAmount;
     private bool _isCollecting;
 
+    private Coroutine _goldMineCoroutine;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -30,7 +32,7 @@ public class GoldMine : MonoBehaviour
 
         _playerUI = FindObjectOfType<PlayerUI>();
         showRender.sprite = showSprite[0];
-        StartCoroutine(GoldMineBehaviour(waitTime));
+        _goldMineCoroutine = StartCoroutine(GoldMineBehaviour(waitTime));
         _isCollecting = false;
     }
 
@@ -40,7 +42,7 @@ public class GoldMine : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && !_isCollecting)
         {
-            var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, mineMask);
+            var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.up, Mathf.Infinity, mineMask);
             if (hit.collider != null && hit.collider.gameObject == gameObject)
                 CollectCoins();
         }
@@ -48,7 +50,7 @@ public class GoldMine : MonoBehaviour
 
     private IEnumerator GoldMineBehaviour(float delay)
     {
-        while(true)
+        while (_currentAmount < 20)
         {
             switch (_currentAmount)
             {
@@ -76,10 +78,10 @@ public class GoldMine : MonoBehaviour
                     showRender.sprite = showSprite[4];
                     _currentAmount += 5;
                     break;
-                case 20:
-                    break;
             }
         }
+
+        showRender.sprite = showSprite[4]; 
     }
 
     private void CollectCoins()
@@ -90,7 +92,10 @@ public class GoldMine : MonoBehaviour
         {
             _playerUI.GiveCoinAmount(_currentAmount);
             _currentAmount = 0;
-            StartCoroutine(GoldMineBehaviour(waitTime));
+
+            if (_goldMineCoroutine != null)
+                StopCoroutine(_goldMineCoroutine);
+            _goldMineCoroutine = StartCoroutine(GoldMineBehaviour(waitTime));
         }
 
         _isCollecting = false;

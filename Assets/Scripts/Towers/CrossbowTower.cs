@@ -60,13 +60,22 @@ public class CrossbowTower : MonoBehaviour
         while(true)
         {
             if (_target == null || !_enemiesInRange.Contains(_target))
+            {
+                Debug.Log("Finding a new target...");
                 _target = GetNextTarget();
+            }
 
             if (_target != null && !_isShooting)
+            {
+                Debug.Log("Starting to shoot at target.");
                 StartCoroutine(Shoot());
+            }
 
             if (_target == null)
+            {
+                Debug.Log("No target available.");
                 _isShooting = false;
+            }
 
             yield return new WaitForSeconds(0.1f);
         }

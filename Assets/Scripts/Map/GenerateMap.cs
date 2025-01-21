@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GenerateMap : MonoBehaviour
@@ -15,16 +16,22 @@ public class GenerateMap : MonoBehaviour
     [SerializeField] [Range(0, 50)] private int gridWidth;
     [SerializeField] [Range(0, 50)] private int gridHeight;
 
-    private List<Vector2> pathWaypoints = new(); 
+    private bool _isGenerated;
+    private readonly List<Vector2> pathWaypoints = new(); 
 
     public List<Vector2> GetPathWaypoints() => pathWaypoints;
 
     private void Awake() => GenerateLevel();
-
     private void GenerateLevel()
     {
         var pathGrid = new bool[gridWidth, gridHeight];
         GeneratePath(pathGrid);
+
+        if (gridWidth * gridHeight > 10000)
+        {
+            UnityEngine.Debug.LogError("Grid size too large; reduce grid dimensions.");
+            return;
+        }
 
         for (var x = 0; x < gridWidth; x++)
         {
@@ -81,7 +88,11 @@ public class GenerateMap : MonoBehaviour
                 validMoves.Add(lastMove);
             }
 
-            if (validMoves.Count == 0) break;
+            if (validMoves.Count == 0)
+            {
+                UnityEngine.Debug.LogError("Path generation failed: No valid moves available.");
+                break;
+            }
 
             var chosenMove = validMoves[Random.Range(0, validMoves.Count)];
 
@@ -100,10 +111,23 @@ public class GenerateMap : MonoBehaviour
                 mustGoStraight = true; 
             }
 
+            if (currentX >= gridWidth - 1)
+            {
+                UnityEngine.Debug.Log("Path successfully generated.");
+                break;
+            }
+            else if (validMoves.Count == 0)
+            {
+                UnityEngine.Debug.LogError("Path generation stopped unexpectedly.");
+                break;
+            }
+
             pathWaypoints.Add(new Vector2(currentX * tileSize, currentY * tileSize));
 
             lastMove = chosenMove;
         }
+
+        _isGenerated = true;
     }
 
     private GameObject DeterminePathTile(bool[,] pathgrid, int x, int y)
@@ -121,5 +145,48 @@ public class GenerateMap : MonoBehaviour
             return pathTilePref;
 
         return pathTilePref;
+    }
+
+    private void MergePathTiles()
+    {
+        var pathTiles = parentTile[1].GetComponentsInChildren<SpriteRenderer>();
+        if (pathTiles.Length == 0) return;
+
+        var textureWidth = gridWidth * Mathf.CeilToInt(tileSize);
+        var textureHeight = gridHeight * Mathf.CeilToInt(tileSize);
+        var mergedTexture = new Texture2D(textureWidth, textureHeight);
+
+        foreach (var tile in pathTiles)
+        {
+            if (tile.sprite == null || tile.sprite.texture == null)
+                continue;
+
+            var texture = tile.sprite.texture;
+            if (!texture.isReadable)
+                continue;
+
+            var tilePos = tile.transform.localPosition;
+            var x = Mathf.RoundToInt(tilePos.x / tileSize) * Mathf.CeilToInt(tileSize);
+            var y = Mathf.RoundToInt(tilePos.y / tileSize) * Mathf.CeilToInt(tileSize);
+
+            var pixels = texture.GetPixels((int)tile.sprite.textureRect.x, (int)tile.sprite.textureRect.y, (int)tile.sprite.textureRect.width, (int)tile.sprite.textureRect.height);
+            var blockWidth = Mathf.Min((int)tile.sprite.textureRect.width, mergedTexture.width - x);
+            var blockHeight = Mathf.Min((int)tile.sprite.textureRect.height, mergedTexture.height - y);
+
+            if (blockWidth > 0 && blockHeight > 0 && x >= 0 && y >= 0)
+                mergedTexture.SetPixels(x, y, blockWidth, blockHeight, pixels);
+        }
+
+        mergedTexture.Apply();
+
+        var mergedPath = new GameObject("MergedPath");
+        mergedPath.transform.parent = transform;
+        mergedPath.transform.localPosition = Vector3.zero;
+
+        var renderer = mergedPath.AddComponent<SpriteRenderer>();
+        renderer.sprite = Sprite.Create(mergedTexture, new Rect(0, 0, mergedTexture.width, mergedTexture.height), Vector2.zero);
+
+        foreach (var tile in pathTiles)
+            Destroy(tile.gameObject);
     }
 }

@@ -20,7 +20,7 @@ public class TileCulling : MonoBehaviour
     private void CullTiles()
     {
         var camPos = _mainCam.transform.position;
-        var camHeight  =  _mainCam.orthographicSize;
+        var camHeight = 2f * _mainCam.orthographicSize;
         var camWidth = camHeight * _mainCam.aspect;
 
         var minX = camPos.x - camWidth / 2 - tileSize;
