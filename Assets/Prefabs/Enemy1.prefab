@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 3
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 3
   m_OnValueChanged:
     m_PersistentCalls:
@@ -149,7 +149,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &6081478151290249354
 MonoBehaviour:
@@ -267,7 +267,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 85e078ac711daf943adf3412566e823d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -291,10 +291,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f9f36074c66d0a489e6ac7061187083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemAnim: {fileID: 0}
   movementSpeed: 2.5
   lookSpeed: 250
+  shootsBack: 0
+  giveCoins: 5
   lives: 3
   enemyLives: {fileID: 3779102029141020187}
+  shootingRange: 0
+  shootCooldown: 0
+  bulletPref: {fileID: 0}
   CurrentLives: 0
 --- !u!61 &1728426937423967443
 BoxCollider2D:
@@ -438,8 +444,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 4.850006, y: 0}
-  m_SizeDelta: {x: 19.37, y: 10}
+  m_AnchoredPosition: {x: 4.89, y: 0.4}
+  m_SizeDelta: {x: 18.98, y: 9.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8267016865263391826
 CanvasRenderer:

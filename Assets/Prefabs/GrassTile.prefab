@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1754217700171072617}
   - component: {fileID: 1108584259736669420}
   - component: {fileID: 6811524131935505806}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GrassTile
   m_TagString: Grass
   m_Icon: {fileID: 0}
@@ -245,4 +245,8 @@ MonoBehaviour:
   originalColor: {r: 1, g: 1, b: 1, a: 1}
   grass: {fileID: 1721236695499595692}
   buildUI: {fileID: 0}
-  grassTilesInt: 393
+  grassTilesInt: 380
+  grassLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  _isBuildUIActive: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrossbowTower : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class CrossbowTower : MonoBehaviour
     [SerializeField][Range(0, 50)] private float detectionRange;
     [SerializeField][Range(0, 250)] private float rotSpeed;
 
+    [Header("Crossbow Lives Settings: ")]
+    [SerializeField] [Range(0, 15)] private int lives;
+    [SerializeField] private Slider towerLives;
+
     [Header("Projectile Settings: ")]
     [SerializeField] private GameObject projectilePref;
     [SerializeField][Range(0, 10)] private float delayDur;
@@ -18,12 +23,22 @@ public class CrossbowTower : MonoBehaviour
     private readonly List<Transform> _enemiesInRange = new();
     private bool _isShooting;
 
+    private bool _shootOnce;
+    public int CurrentLives;
+
     // Start is called before the first frame update
-    private void Start() => StartCoroutine(TargetEnemy());
+    private void Start()
+    {
+        CurrentLives = lives;
+        towerLives.value = CurrentLives;
+
+        StartCoroutine(TargetEnemy());
+    }
 
     // Update is called once per frame
     private void Update()
     {
+        towerLives.value = CurrentLives;
         GetComponent<CircleCollider2D>().radius = detectionRange;
         RotateTowardsTarget();
     }
@@ -43,12 +58,15 @@ public class CrossbowTower : MonoBehaviour
     private IEnumerator TargetEnemy()
     {
         while(true)
-        { 
+        {
             if (_target == null || !_enemiesInRange.Contains(_target))
                 _target = GetNextTarget();
 
             if (_target != null && !_isShooting)
                 StartCoroutine(Shoot());
+
+            if (_target == null)
+                _isShooting = false;
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -59,17 +77,23 @@ public class CrossbowTower : MonoBehaviour
         _isShooting = true;
         while(_target != null && _enemiesInRange.Contains(_target))
         {
-            var projectile = Instantiate(projectilePref, transform.position, transform.rotation);
-            var projectileScript = projectile.GetComponent<Projectile>();
-            if (projectileScript != null)
-            {
-                var direction = (_target.position - transform.position).normalized; 
-                projectileScript.SetDir(direction);
-            }
-            else
-                Debug.LogError("Projectile script is missing on the projectile prefab!");
-
             yield return new WaitForSeconds(delayDur);
+            if (_target != null)
+            {
+                var direction = (_target.position - transform.position).normalized;
+                if (!_shootOnce)
+                {
+                    _shootOnce = true;
+                    var projectile = Instantiate(projectilePref, transform.position, transform.rotation);
+                    if (projectile.TryGetComponent<Projectile>(out var projectileScript))
+                        projectileScript.SetDir(direction);
+                    else
+                        Debug.LogError("Projectile script is missing on the projectile prefab!");
+                }
+                // yield return new WaitForSeconds(delayDur);
+                _shootOnce = false;
+                crossbowAnim.Play(0, 0, 0f);
+            }
         }
     }
 
@@ -77,6 +101,7 @@ public class CrossbowTower : MonoBehaviour
     {
         if (_enemiesInRange.Count == 0)
         {
+            crossbowAnim.Play(0, 0, 0f);
             crossbowAnim.enabled = false;
             return null;
         }
@@ -112,7 +137,7 @@ public class CrossbowTower : MonoBehaviour
         {
             _enemiesInRange.Remove(collision.transform);
             if (collision.transform == _target)
-                _target = null;
+                  _target = GetNextTarget();
         }
     }
 

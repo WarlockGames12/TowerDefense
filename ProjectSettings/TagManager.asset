@@ -6,14 +6,16 @@ TagManager:
   tags:
   - Grass
   - Enemy
+  - Tower
+  - Mine
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Grass
   - Water
   - UI
-  - 
+  - Mine
   - 
   - 
   - 

@@ -11,6 +11,10 @@ public class SelectionSystem : MonoBehaviour
     [SerializeField] [Range(0, 10)] private float orbitRad;
     [SerializeField] [Range(0, 150)] private float rotSpeed;
 
+    private Camera _mainCamera;
+
+    private void Start() => _mainCamera = Camera.main;
+
     // Update is called once per frame
     private void Update()
     {
@@ -20,11 +24,15 @@ public class SelectionSystem : MonoBehaviour
 
     private void OrbitAroundBall()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var zoomFactor = _mainCamera.orthographicSize / 5;
+        var adjustOrbitRad = orbitRad * zoomFactor; 
+
+        Vector2 mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
         var dir = mousePos - (Vector2)middleBall.position;
         var angle = Mathf.Atan2(dir.y, dir.x);
 
-        var newArrowPos = (Vector2)middleBall.position + new Vector2(Mathf.Cos(angle) * orbitRad, Mathf.Sin(angle) * orbitRad);
+        var newArrowPos = (Vector2)middleBall.position + new Vector2(Mathf.Cos(angle) * adjustOrbitRad, Mathf.Sin(angle) * adjustOrbitRad);
         arrowPointer.position = newArrowPos;
     }
 

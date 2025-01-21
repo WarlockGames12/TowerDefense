@@ -14,6 +14,9 @@ public class DragCamera : MonoBehaviour
     [SerializeField] [Range(0, 25)] private float minZoom;
     [SerializeField] [Range(0, 25)] private float maxZoom;
 
+    [Header("Paused Menu Settings: ")]
+    [SerializeField] private GameObject pausedMenu;
+
     private Vector3 _dragOg;
     private Camera _cam;
 
@@ -24,14 +27,31 @@ public class DragCamera : MonoBehaviour
     {
         DraggingCamera();
         HandleZoom();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale >= 1)
+            PauseMenu(0);
+    }
+
+    public void PauseMenu(int timeScale)
+    {
+        if (timeScale >= 1)
+        {
+            Time.timeScale = timeScale;
+            pausedMenu.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = timeScale;
+            pausedMenu.SetActive(true);
+        }
     }
 
     private void DraggingCamera()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && Time.timeScale >= 1)
             _dragOg = Input.mousePosition;
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && Time.timeScale >= 1)
         {
             var difference = Camera.main.ScreenToWorldPoint(_dragOg) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

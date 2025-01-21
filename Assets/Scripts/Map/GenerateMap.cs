@@ -19,7 +19,7 @@ public class GenerateMap : MonoBehaviour
 
     public List<Vector2> GetPathWaypoints() => pathWaypoints;
 
-    private void Start() => GenerateLevel();
+    private void Awake() => GenerateLevel();
 
     private void GenerateLevel()
     {
@@ -48,8 +48,6 @@ public class GenerateMap : MonoBehaviour
         var currentX = 0;
         var currentY = gridHeight / 2; 
         pathGrid[currentX, currentY] = true;
-
-        // pathWaypoints.Add(new Vector2(currentX * tileSize, currentY * tileSize));
         
         var straightCounter = 0;
         var lastMove = new Vector2Int(1, 0); 
