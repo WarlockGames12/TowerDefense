@@ -1,53 +1,102 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class EnemySpawner : MonoBehaviour
+namespace Enemy
 {
-
-    [Header("Spawner Settings: ")]
-    [SerializeField] private GameObject[] enemyPref;
-    [SerializeField] private GenerateMap map;
-    [SerializeField] private float spawnDelay = 2f;
-    [SerializeField] private Transform enemyParent;
-
-    private int totalEnemyCount = 0;
-    private const int maxEnemyCount = 50;
-    private List<GameObject> activeEnemies = new(); 
-
-    private void Start() => StartCoroutine(SpawnEnemies());
-
-    private IEnumerator SpawnEnemies()
+    public class EnemySpawner : MonoBehaviour
     {
-        yield return new WaitForSeconds(5);
-        while (totalEnemyCount < maxEnemyCount)
+        [Header("Enemy Spawner Settings: ")]
+        [SerializeField, Range(0, 15)] private int maxWaves;
+        [SerializeField, Range(0, 15)] private float spawnDelay;
+        [SerializeField, Range(0, 15)] private float nextWaveDelay;
+        [SerializeField] private Text[] showCurrentWaveAndNextWaveDelay;
+        [SerializeField] private GameObject[] enemyPref;
+        [SerializeField] private Transform enemyParent;
+
+        private float _currentWave = 0;
+        private GenerateMap _map;
+        private int _enemiesCanBeSpawned = 5;
+        private readonly List<GameObject> _activeEnemies = new();
+        private bool _waitOnce;
+
+        private void Start()
         {
-            RemoveMissingEnemies();
-
-            if (activeEnemies.Count < 7)
-                SpawnEnemy();
-            yield return new WaitForSeconds(spawnDelay);
+            _map = GetComponent<GenerateMap>();
+            StartCoroutine(SpawnWaves());
         }
-        Debug.Log("Reached maximum enemy count.");
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        private IEnumerator SpawnWaves()
+        {
+            if (!_waitOnce)
+            {
+                _waitOnce = true;
+                for (var timer = nextWaveDelay; timer > 0; timer -= 1f)
+                {
+                    showCurrentWaveAndNextWaveDelay[1].text = $"Next Wave In: {timer} seconds";
+                    yield return new WaitForSeconds(1f);
+                }
+
+                showCurrentWaveAndNextWaveDelay[1].text = "";
+            }
+
+            while (_currentWave < maxWaves)
+            {
+                _currentWave++;
+                UpdateUI();
+                
+                for (var i = 0; i < _enemiesCanBeSpawned; i++)
+                {
+                    SpawnEnemy();
+                    yield return new WaitForSeconds(spawnDelay);
+                }
+                
+                yield return new WaitUntil(() =>
+                {
+                    _activeEnemies.RemoveAll(enemy => enemy == null); 
+                    return _activeEnemies.Count == 0; 
+                });
+                
+                for (var timer = nextWaveDelay; timer > 0; timer -= 1f)
+                {
+                    showCurrentWaveAndNextWaveDelay[1].text = $"Next Wave In: {timer} seconds";
+                    yield return new WaitForSeconds(1f);
+                }
+                
+                showCurrentWaveAndNextWaveDelay[1].text = "";
+                if (_enemiesCanBeSpawned < 10) 
+                    _enemiesCanBeSpawned += 1;
+            }
+        }
+
+        private void SpawnEnemy()
+        {
+            var wayPoints = _map.GetPathWaypoints();
+            if (wayPoints == null || wayPoints.Count == 0)
+                return;
+
+            var enemy = Instantiate(enemyPref[Random.Range(0, enemyPref.Length)], wayPoints[0], Quaternion.identity, enemyParent);
+            var enemyMovement = enemy.GetComponent<EnemyMovement>();
+            enemyMovement.SetWaypoints(wayPoints);
+            
+            _activeEnemies.Add(enemy);
+            enemyMovement.OnReachEndAction += () =>
+            {
+                _activeEnemies.Remove(enemy);
+            };
+        }
+
+        private void UpdateUI()
+        {
+            showCurrentWaveAndNextWaveDelay[0].text = showCurrentWaveAndNextWaveDelay.Length switch
+            {
+                >= 2 => $"Wave: {_currentWave}/{maxWaves}",
+                _ => showCurrentWaveAndNextWaveDelay[0].text
+            };
+        }
     }
-
-    private void SpawnEnemy()
-    {
-        var wayPoints = map.GetPathWaypoints();
-        if (wayPoints == null || wayPoints.Count == 0) return;
-
-        var enemy = Instantiate(enemyPref[Random.Range(0, enemyPref.Length)], wayPoints[0], Quaternion.identity, enemyParent);
-        var enemyMovement = enemy.GetComponent<EnemyMovement>();
-        enemyMovement.SetWaypoints(wayPoints);
-
-        totalEnemyCount++;
-        activeEnemies.Add(enemy);
-
-        enemy.GetComponent<EnemyMovement>().OnReachEndAction += () => RemoveEnemyFromList(enemy);
-    }
-
-    private void RemoveMissingEnemies() => activeEnemies.RemoveAll(enemy => enemy == null);
-
-    public void RemoveEnemyFromList(GameObject enemy) => activeEnemies.Remove(enemy);
 }

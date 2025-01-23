@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 10
   rb: {fileID: -4725319095645911830}
+  isAbleToDamage: 1
   enemyHit: {fileID: 4473528845988292057, guid: fc24a98a788783248a3d699cf04d70c9, type: 3}
   enemySound:
   - {fileID: 8300000, guid: 722d81b10ae26734ab8e3b95d682d846, type: 3}

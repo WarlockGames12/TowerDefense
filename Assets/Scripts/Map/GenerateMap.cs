@@ -7,7 +7,7 @@ public class GenerateMap : MonoBehaviour
 {
 
     [Header("Generate Map Settings: ")]
-    [SerializeField] private GameObject grassTilePref;
+    [SerializeField] private GameObject[] grassTilePref;
     [SerializeField] private GameObject pathTilePref;
     [SerializeField] private Transform[] parentTile;
 
@@ -16,9 +16,8 @@ public class GenerateMap : MonoBehaviour
     [SerializeField] [Range(0, 50)] private int gridWidth;
     [SerializeField] [Range(0, 50)] private int gridHeight;
 
-    private bool _isGenerated;
     private readonly List<Vector2> pathWaypoints = new(); 
-
+    
     public List<Vector2> GetPathWaypoints() => pathWaypoints;
 
     private void Awake() => GenerateLevel();
@@ -43,9 +42,8 @@ public class GenerateMap : MonoBehaviour
                     var tile = DeterminePathTile(pathGrid, x, y);
                     Instantiate(tile, spawnPos, Quaternion.identity, parentTile[1]);
                 }
-                    
                 else
-                    Instantiate(grassTilePref, spawnPos, Quaternion.identity, parentTile[0]);
+                    Instantiate(grassTilePref[Random.Range(0,grassTilePref.Length)], spawnPos, Quaternion.identity, parentTile[0]);
             }
         }
     }
@@ -53,7 +51,7 @@ public class GenerateMap : MonoBehaviour
     private void GeneratePath(bool[,] pathGrid)
     {
         var currentX = 0;
-        var currentY = gridHeight / 2; 
+        var currentY = 0; 
         pathGrid[currentX, currentY] = true;
         
         var straightCounter = 0;
@@ -126,8 +124,6 @@ public class GenerateMap : MonoBehaviour
 
             lastMove = chosenMove;
         }
-
-        _isGenerated = true;
     }
 
     private GameObject DeterminePathTile(bool[,] pathgrid, int x, int y)
@@ -145,48 +141,5 @@ public class GenerateMap : MonoBehaviour
             return pathTilePref;
 
         return pathTilePref;
-    }
-
-    private void MergePathTiles()
-    {
-        var pathTiles = parentTile[1].GetComponentsInChildren<SpriteRenderer>();
-        if (pathTiles.Length == 0) return;
-
-        var textureWidth = gridWidth * Mathf.CeilToInt(tileSize);
-        var textureHeight = gridHeight * Mathf.CeilToInt(tileSize);
-        var mergedTexture = new Texture2D(textureWidth, textureHeight);
-
-        foreach (var tile in pathTiles)
-        {
-            if (tile.sprite == null || tile.sprite.texture == null)
-                continue;
-
-            var texture = tile.sprite.texture;
-            if (!texture.isReadable)
-                continue;
-
-            var tilePos = tile.transform.localPosition;
-            var x = Mathf.RoundToInt(tilePos.x / tileSize) * Mathf.CeilToInt(tileSize);
-            var y = Mathf.RoundToInt(tilePos.y / tileSize) * Mathf.CeilToInt(tileSize);
-
-            var pixels = texture.GetPixels((int)tile.sprite.textureRect.x, (int)tile.sprite.textureRect.y, (int)tile.sprite.textureRect.width, (int)tile.sprite.textureRect.height);
-            var blockWidth = Mathf.Min((int)tile.sprite.textureRect.width, mergedTexture.width - x);
-            var blockHeight = Mathf.Min((int)tile.sprite.textureRect.height, mergedTexture.height - y);
-
-            if (blockWidth > 0 && blockHeight > 0 && x >= 0 && y >= 0)
-                mergedTexture.SetPixels(x, y, blockWidth, blockHeight, pixels);
-        }
-
-        mergedTexture.Apply();
-
-        var mergedPath = new GameObject("MergedPath");
-        mergedPath.transform.parent = transform;
-        mergedPath.transform.localPosition = Vector3.zero;
-
-        var renderer = mergedPath.AddComponent<SpriteRenderer>();
-        renderer.sprite = Sprite.Create(mergedTexture, new Rect(0, 0, mergedTexture.width, mergedTexture.height), Vector2.zero);
-
-        foreach (var tile in pathTiles)
-            Destroy(tile.gameObject);
     }
 }
