@@ -1,3 +1,4 @@
+using Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using Towers;
@@ -26,12 +27,17 @@ public class CrossbowTower : MonoBehaviour
 
     private bool _shootOnce;
     public int CurrentLives;
+    private bool isFlashing;
 
     // Start is called before the first frame update
     private void Start()
     {
         CurrentLives = lives;
         towerLives.value = CurrentLives;
+
+        var childCollider = GetComponentInChildren<CircleCollider2D>();
+        var mainCollider = GetComponent<BoxCollider2D>();
+        Physics2D.IgnoreCollision(childCollider, mainCollider);
 
         StartCoroutine(TargetEnemy());
     }
@@ -40,7 +46,7 @@ public class CrossbowTower : MonoBehaviour
     private void Update()
     {
         towerLives.value = CurrentLives;
-        GetComponent<CircleCollider2D>().radius = detectionRange;
+        GetComponentInChildren<CircleCollider2D>().radius = detectionRange;
         RotateTowardsTarget();
     }
 
@@ -61,22 +67,13 @@ public class CrossbowTower : MonoBehaviour
         while(true)
         {
             if (_target == null || !_enemiesInRange.Contains(_target))
-            {
-                Debug.Log("Finding a new target...");
                 _target = GetNextTarget();
-            }
 
             if (_target != null && !_isShooting)
-            {
-                Debug.Log("Starting to shoot at target.");
                 StartCoroutine(Shoot());
-            }
 
             if (_target == null)
-            {
-                Debug.Log("No target available.");
                 _isShooting = false;
-            }
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -87,6 +84,7 @@ public class CrossbowTower : MonoBehaviour
         _isShooting = true;
         while(_target != null && _enemiesInRange.Contains(_target))
         {
+            _shootOnce = false;
             yield return new WaitForSeconds(delayDur);
             if (_target != null)
             {
@@ -101,7 +99,6 @@ public class CrossbowTower : MonoBehaviour
                         Debug.LogError("Projectile script is missing on the projectile prefab!");
                 }
                 // yield return new WaitForSeconds(delayDur);
-                _shootOnce = false;
                 crossbowAnim.Play(0, 0, 0f);
             }
         }
@@ -134,11 +131,64 @@ public class CrossbowTower : MonoBehaviour
         return closestEnemy;
     }
 
+    public IEnumerator GiveDamage()
+    {
+        if (isFlashing)
+            yield break;
+
+        isFlashing = true;
+        var flashDuration = 0.1f;
+        var flashCount = 3;
+
+        if (!TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            isFlashing = false;
+            yield break;
+        }
+
+        var originalColor = spriteRenderer.color;
+
+        for (var i = 0; i < flashCount; i++)
+        {
+            spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(flashDuration);
+
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(flashDuration);
+        }
+
+        isFlashing = false;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
             _enemiesInRange.Add(collision.transform);
+
+
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            var enemyProjectile = collision.gameObject.GetComponent<EnemyProjectile>();
+            CurrentLives -= enemyProjectile.damage;
+
+            var source = Instantiate(enemyProjectile.enemyHit, transform.position, Quaternion.identity);
+            enemyProjectile.enemyHit.clip = CurrentLives > 0 ? enemyProjectile.enemySound[0] : enemyProjectile.enemySound[1];
+            enemyProjectile.enemyHit.Play();
+            Destroy(source.gameObject, 1);
+
+            var particleSplatter = Instantiate(enemyProjectile.bloodSplatter[0], transform.position, Quaternion.identity);
+            Destroy(particleSplatter, 0.5f);
+
+            StartCoroutine(GiveDamage());
+
+            if (CurrentLives <= 0)
+            {
+                Instantiate(enemyProjectile.bloodSplatter[Random.Range(1, 4)], transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
+            Destroy(collision.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

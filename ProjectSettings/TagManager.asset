@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Tower
   - Mine
+  - EnemyBullet
+  - Towering
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Mine
-  - 
+  - Tower
   - 
   - 
   - 

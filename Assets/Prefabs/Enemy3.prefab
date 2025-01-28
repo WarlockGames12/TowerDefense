@@ -108,10 +108,10 @@ MonoBehaviour:
   giveCoins: 15
   lives: 5
   enemyLives: {fileID: 2601961022198475862}
-  shootingRange: 2.1
-  shootCooldown: 0.517
+  shootingRange: 15
+  shootCooldown: 0.5
   bulletPref: {fileID: 3819089697499023153, guid: 83ec3b5eec8539f40aa4af14c064b15d, type: 3}
-  CurrentLives: 0
+  currentLives: 0
 --- !u!61 &3066616323167955237
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -251,11 +251,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 23.9044
+      value: 8.7522
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 68.702
+      value: 3.1214
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_LocalPosition.x
@@ -275,23 +275,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.6699
+      value: -0.021
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0
+      value: 0.234
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2648138453169796609, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3186291678967283284, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchorMax.x
@@ -316,6 +316,10 @@ PrefabInstance:
     - target: {fileID: 3186291678967283284, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8295415240906714298, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Towers;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Enemy
 {
@@ -35,6 +37,8 @@ namespace Enemy
         private Transform _targetTower;
         private readonly List<Transform> _towersInRange = new();
         private bool _isShooting;
+        private bool _shootOnce;
+        private bool isFlashing;
 
         private void Start()
         {
@@ -43,7 +47,13 @@ namespace Enemy
             enemyLives.value = currentLives;
 
             if (shootsBack)
+            {
+                enemAnim = gameObject.GetComponent<Animator>();
+                if (enemAnim == null)
+                    Destroy(gameObject);
                 StartCoroutine(TargetTower());
+            }
+                
         }
 
         public void SetWaypoints(List<Vector2> path)
@@ -102,6 +112,12 @@ namespace Enemy
                 if (_targetTower == null || !_towersInRange.Contains(_targetTower))
                     _targetTower = GetNextTarget();
 
+                if (_targetTower != null && !_isShooting)
+                    StartCoroutine(Shoot());
+
+                if (_targetTower == null)
+                    _isShooting = false;
+
                 yield return new WaitForSeconds(0.1f);
             }
         }
@@ -132,10 +148,10 @@ namespace Enemy
         {
             if (!_targetTower) return;
 
-            var lookDir = (Vector2)_targetTower.position - (Vector2)transform.position;
-            var angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-            var lookTarget = Quaternion.Euler(0, 0, angle);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookTarget, lookSpeed * Time.deltaTime);
+            var dir = _targetTower.position - transform.position;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            var targetRot = Quaternion.Euler(0, 0, angle);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, lookSpeed * Time.deltaTime);
 
             if (!_isShooting)
                 StartCoroutine(Shoot());
@@ -147,21 +163,27 @@ namespace Enemy
 
             while (_targetTower != null && _towersInRange.Contains(_targetTower))
             {
-                if (bulletPref != null)
-                {
-                    enemAnim.enabled = true;
-                    var direction = (_targetTower.position - transform.position).normalized;
-                    var projectile = Instantiate(bulletPref, transform.position, transform.rotation);
-
-                    if (projectile.TryGetComponent<EnemyProjectile>(out var projectileScript))
-                        projectileScript.SetDir(direction);
-                    else
-                        Debug.LogError("Projectile script is missing on the projectile prefab!");
-
-                    enemAnim.enabled = false;
-                }
-
+                _shootOnce = false;
                 yield return new WaitForSeconds(shootCooldown);
+
+                if (!_shootOnce)
+                {
+                    _shootOnce = true;
+                    if (enemAnim != null)
+                        enemAnim.Play(0, 0, 0f);
+
+                    if (_targetTower != null)
+                    {
+                        var direction = (_targetTower.position - transform.position).normalized;
+                        var spawnPos = transform.position + (direction * 0.5f);
+                        var projectile = Instantiate(bulletPref, spawnPos, transform.rotation);
+
+                        if (projectile.TryGetComponent<EnemyProjectile>(out var projectileScript))
+                            projectileScript.SetDir(direction);
+                        else
+                            Debug.LogError("Projectile script is missing on the projectile prefab!");
+                    }
+                }
             }
 
             _isShooting = false;
@@ -169,13 +191,79 @@ namespace Enemy
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Tower"))
+            if (collision.CompareTag("Towering"))
                 _towersInRange.Add(collision.transform);
+
+            if (collision.CompareTag("Projectile"))
+            {
+                if (collision.TryGetComponent<Projectile>(out var enemy))
+                {
+                    currentLives -= enemy.damage;
+
+                    var source = Instantiate(enemy.enemyHit, transform.position, Quaternion.identity);
+                    enemy.enemyHit.clip = currentLives > 0 ? enemy.enemySound[0] : enemy.enemySound[1];
+                    enemy.enemyHit.Play();
+                    Destroy(source.gameObject, 1);
+
+                    var particleSplatter = Instantiate(enemy.bloodSplatter[0], transform.position, Quaternion.identity);
+                    Destroy(particleSplatter, 0.5f);
+
+                    StartCoroutine(GiveDamage(gameObject));
+
+                    if (currentLives <= 0)
+                    {
+                        Instantiate(enemy.bloodSplatter[UnityEngine.Random.Range(1, 4)], collision.transform.position, Quaternion.identity);
+                        _playerUI.GiveCoinAmount(giveCoins);
+                        OnDeath();
+                        Destroy(gameObject);
+                    }
+                }
+
+                Destroy(collision.gameObject);
+            }
+        }
+
+        private IEnumerator GiveDamage(GameObject currentObject)
+        {
+            if (isFlashing)
+                yield break;
+
+            isFlashing = true;
+            var flashDuration = 0.1f;
+            var flashCount = 3;
+
+            if (!currentObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                isFlashing = false;
+                yield break;
+            }
+
+            var originalColor = spriteRenderer.color;
+
+            for (var i = 0; i < flashCount; i++)
+            {
+                if (currentObject == null)
+                    yield break;
+
+                spriteRenderer.color = Color.red;
+                yield return new WaitForSeconds(flashDuration);
+
+                if (currentObject == null)
+                    yield break;
+
+                spriteRenderer.color = originalColor;
+                yield return new WaitForSeconds(flashDuration);
+            }
+
+            if (currentObject != null)
+                spriteRenderer.color = originalColor;
+
+            isFlashing = false;
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag("Tower"))
+            if (collision.CompareTag("Towering"))
             {
                 _towersInRange.Remove(collision.transform);
                 if (collision.transform == _targetTower)

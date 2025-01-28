@@ -13,10 +13,7 @@ public class SparklesOverText : MonoBehaviour
     [SerializeField] private RectTransform textBounds;
 
     // Start is called before the first frame update
-    private void Start()
-    {
-        StartCoroutine(SpawnSparkles());
-    }
+    private void Start() => StartCoroutine(SpawnSparkles());
 
     private IEnumerator SpawnSparkles()
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class DragCamera : MonoBehaviour
@@ -15,6 +16,7 @@ public class DragCamera : MonoBehaviour
     [SerializeField] [Range(0, 25)] private float maxZoom;
 
     [Header("Paused Menu Settings: ")]
+    [SerializeField] private Animator pausedAnim;
     [SerializeField] private GameObject pausedMenu;
 
     private Vector3 _dragOg;
@@ -37,13 +39,22 @@ public class DragCamera : MonoBehaviour
         if (timeScale >= 1)
         {
             Time.timeScale = timeScale;
-            pausedMenu.SetActive(false);
+            pausedAnim.SetBool("isPaused", false);
+            StartCoroutine(WaitPaused(1f));
+            
         }
         else
         {
             Time.timeScale = timeScale;
+            pausedAnim.SetBool("isPaused", true);
             pausedMenu.SetActive(true);
         }
+    }
+
+    private IEnumerator WaitPaused(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        pausedMenu.SetActive(false);
     }
 
     private void DraggingCamera()

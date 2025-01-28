@@ -17,6 +17,9 @@ namespace Enemy
         [SerializeField] private GameObject[] enemyPref;
         [SerializeField] private Transform enemyParent;
 
+        [Header("You Win Method: ")]
+        [SerializeField] private GameObject youWinScreen;
+
         private float _currentWave = 0;
         private GenerateMap _map;
         private int _enemiesCanBeSpawned = 5;
@@ -71,6 +74,12 @@ namespace Enemy
                 if (_enemiesCanBeSpawned < 10) 
                     _enemiesCanBeSpawned += 1;
             }
+            if (_currentWave == 7)
+            {
+                youWinScreen.SetActive(true);
+                Time.timeScale = 0; 
+            }
+                
         }
 
         private void SpawnEnemy()

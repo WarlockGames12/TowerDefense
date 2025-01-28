@@ -1,4 +1,5 @@
 using Enemy;
+using System.Collections;
 using UnityEngine;
 
 namespace Towers
@@ -12,13 +13,14 @@ namespace Towers
         [SerializeField] private bool isAbleToDamage;
 
         [Header("Enemy Hit Settings: ")]
-        [SerializeField] private AudioSource enemyHit;
-        [SerializeField] private AudioClip[] enemySound;
-        [SerializeField] private GameObject[] bloodSplatter;
-        [SerializeField] [Range(0, 5)] private int damage;
+        [SerializeField] public AudioSource enemyHit;
+        [SerializeField] public AudioClip[] enemySound;
+        [SerializeField] public GameObject[] bloodSplatter;
+        [SerializeField] [Range(0, 5)] public int damage;
 
         private Vector2 _dir;
         private PlayerUI _playerUI;
+        private bool isFlashing;
 
         public void SetDir(Vector2 direction) => _dir = direction.normalized;
 
@@ -28,39 +30,6 @@ namespace Towers
             rb.velocity = _dir * projectileSpeed;
             Destroy(gameObject, 2.5f);
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Enemy"))
-            {
-                if (collision.TryGetComponent<EnemyMovement>(out var enemy) && isAbleToDamage)
-                {
-                    var source = Instantiate(enemyHit, collision.transform.position, Quaternion.identity);
-                    enemyHit.clip = enemy.currentLives > 0 ? enemySound[0] : enemySound[1];
-                    enemyHit.Play();
-                    Destroy(source.gameObject, 1);
-
-                    var particleSplatter = Instantiate(bloodSplatter[0], collision.transform.position, Quaternion.identity);
-                    Destroy(particleSplatter, 0.5f);
-                    enemy.currentLives -= damage;
-                    var spawner = FindObjectOfType<EnemySpawner>();
-                
-                    if (enemy.currentLives <= 0)
-                    {
-                        Instantiate(bloodSplatter[Random.Range(1,4)], collision.transform.position, Quaternion.identity);
-                        var getCoinAmount = collision.gameObject.GetComponent<EnemyMovement>().giveCoins;
-                        _playerUI.GiveCoinAmount(getCoinAmount);
-                        enemy.OnDeath();
-                        Destroy(collision.gameObject);
-                    } 
-                }
-                else if (collision.TryGetComponent<EnemyMovement>(out var enemy1) && !isAbleToDamage)
-                {
-                
-                }
-
-                Destroy(gameObject);
-            }
-        }
+        
     }
 }
