@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac08bdee0893104287cff6372d34b9d, type: 3}
+  m_Name: Dialogue1
+  m_EditorClassIdentifier: 
+  dialogueEntry:
+  - speakerVoice: {fileID: 8300000, guid: 11771f139bc4d3d498ab6a0f06a4d7b3, type: 3}
+    speakerName: 'The King: '
+    dialogueTextRef: '"Well, It seems for now that my kingdom is doing well.."'
+  - speakerVoice: {fileID: 8300000, guid: 11771f139bc4d3d498ab6a0f06a4d7b3, type: 3}
+    speakerName: 'The King: '
+    dialogueTextRef: '"Psch, poor fools, trusting me to be their king...quite foolish
+      on their part."'
+  anotherEvent: 1

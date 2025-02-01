@@ -15,6 +15,8 @@ namespace Enemy
         [SerializeField, Range(0, 15)] private float nextWaveDelay;
         [SerializeField] private Text[] showCurrentWaveAndNextWaveDelay;
         [SerializeField] private GameObject[] enemyPref;
+        [SerializeField] private GameObject bossPref;
+        [SerializeField] private bool hasBoss;
         [SerializeField] private Transform enemyParent;
 
         [Header("You Win Method: ")]
@@ -51,7 +53,18 @@ namespace Enemy
             {
                 _currentWave++;
                 UpdateUI();
-                
+
+                if (_currentWave == 7 && hasBoss)
+                {
+                    SpawnBoss();
+
+                    yield return new WaitUntil(() =>
+                    {
+                        _activeEnemies.RemoveAll(enemy => enemy == null);
+                        return _activeEnemies.Count == 0;
+                    });
+                }
+
                 for (var i = 0; i < _enemiesCanBeSpawned; i++)
                 {
                     SpawnEnemy();
@@ -66,7 +79,12 @@ namespace Enemy
                 
                 for (var timer = nextWaveDelay; timer > 0; timer -= 1f)
                 {
-                    showCurrentWaveAndNextWaveDelay[1].text = $"Next Wave In: {timer} seconds";
+                    if (_currentWave == 7)
+                        showCurrentWaveAndNextWaveDelay[1].text = $"Finishing Level In: {timer} seconds!";
+                    else if (_currentWave == 6 && hasBoss)
+                        showCurrentWaveAndNextWaveDelay[1].text = $"Boss Incoming In: {timer} seconds!";
+                    else
+                        showCurrentWaveAndNextWaveDelay[1].text = $"Next Wave In: {timer} seconds";
                     yield return new WaitForSeconds(1f);
                 }
                 
@@ -87,7 +105,7 @@ namespace Enemy
             var wayPoints = _map.GetPathWaypoints();
             if (wayPoints == null || wayPoints.Count == 0)
                 return;
-
+                
             var enemy = Instantiate(enemyPref[Random.Range(0, enemyPref.Length)], wayPoints[0], Quaternion.identity, enemyParent);
             var enemyMovement = enemy.GetComponent<EnemyMovement>();
             enemyMovement.SetWaypoints(wayPoints);
@@ -96,6 +114,23 @@ namespace Enemy
             enemyMovement.OnReachEndAction += () =>
             {
                 _activeEnemies.Remove(enemy);
+            };
+        }
+
+        private void SpawnBoss()
+        {
+            var wayPoints = _map.GetPathWaypoints();
+            if (wayPoints == null || wayPoints.Count == 0)
+                return;
+
+            var boss = Instantiate(bossPref, wayPoints[0], Quaternion.identity, enemyParent);
+            var bossMovement = boss.GetComponent<EnemyMovement>();
+            bossMovement.SetWaypoints(wayPoints);
+
+            _activeEnemies.Add(boss);
+            bossMovement.OnReachEndAction += () =>
+            {
+                _activeEnemies.Remove(boss);
             };
         }
 

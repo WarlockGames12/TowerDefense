@@ -23,4 +23,10 @@ public class SceneSave : MonoBehaviour
             SceneManager.LoadScene(savedScene);
         }
     }
+
+    public void NewGame()
+    {
+        if (PlayerPrefs.HasKey(sceneSaveKey))
+            PlayerPrefs.DeleteKey(sceneSaveKey);
+    }
 }

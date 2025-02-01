@@ -143,7 +143,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.00000008195639, y: 0.005661346}
@@ -179,8 +179,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 863d68ca195429e408ee1295f3dd809e, type: 3}
   bloodSplatter:
   - {fileID: 1422599594654455613, guid: d93f3ab224a01f445be67a1614cf6c16, type: 3}
-  - {fileID: 8828887060281317624, guid: e1ed6077b606bf34d9b557ce48fa4abd, type: 3}
-  - {fileID: 5871166445149237575, guid: 59544ac6106a76b42b7451bfb3aea6a3, type: 3}
-  - {fileID: 7446609970163765652, guid: cedf1b85ec6f54d478e3760885f8a9f9, type: 3}
-  - {fileID: 2936282621744868647, guid: d2c5969f9ae21da40b1c39939a6fb24f, type: 3}
+  - {fileID: 4678250605470740774, guid: 73918542a91f9f3489f88950bab1f856, type: 3}
   damage: 1

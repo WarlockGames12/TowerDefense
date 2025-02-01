@@ -11,10 +11,10 @@ namespace Enemy
         [SerializeField] private Rigidbody2D rb;
 
         [Header("Enemy Hit Settings: ")]
-        [SerializeField] public AudioSource enemyHit;
-        [SerializeField] public AudioClip[] enemySound;
-        [SerializeField] public GameObject[] bloodSplatter;
-        [SerializeField][Range(0, 5)] public int damage;
+        public AudioSource enemyHit;
+        public AudioClip[] enemySound;
+        public GameObject[] bloodSplatter;
+        [Range(0, 5)] public int damage;
 
         private Vector2 _dir;
         // private bool isAbleToDamage = true;

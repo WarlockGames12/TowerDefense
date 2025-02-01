@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 698544237}
   - component: {fileID: 698544236}
   - component: {fileID: 698544239}
+  - component: {fileID: 698544240}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -230,6 +231,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitTime: 16
   sceneName: MainMenu
+--- !u!114 &698544240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698544235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edabc7725a9b1534db546dca9e54e9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorSprite:
+  - {fileID: 2800000, guid: 448a6860b6e083349948f01a81563470, type: 3}
+  - {fileID: 2800000, guid: a4abe64d7b236a544afbcee75a5083ae, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!1 &802157350
 GameObject:
   m_ObjectHideFlags: 0

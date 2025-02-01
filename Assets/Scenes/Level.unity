@@ -934,6 +934,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1871299204}
         m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
         m_MethodName: Scene
@@ -1066,7 +1078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retry
+  m_Text: Next Level
 --- !u!222 &321821602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1406,6 +1418,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 422145224}
         m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
         m_MethodName: ExitGame
@@ -1901,6 +1925,8 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
+  - component: {fileID: 519420036}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2021,6 +2047,36 @@ MonoBehaviour:
   - {fileID: 558236988}
   - {fileID: 1527364619}
   tileSize: 5
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3214a7a052ba69f4eb44d1e9307c01f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneSaveKey: SavedScene
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edabc7725a9b1534db546dca9e54e9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorSprite:
+  - {fileID: 2800000, guid: 448a6860b6e083349948f01a81563470, type: 3}
+  - {fileID: 2800000, guid: a4abe64d7b236a544afbcee75a5083ae, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!1 &530861792
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,7 +5594,19 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level
+          m_StringArgument: Level2
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 997960910}
@@ -6198,6 +6266,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 997960910}
         m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
         m_MethodName: Scene
@@ -6628,6 +6708,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7366,6 +7458,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 519420035}
+        m_TargetAssemblyTypeName: SceneSave, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 997960910}
         m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
         m_MethodName: ExitGame
@@ -8875,6 +8979,8 @@ MonoBehaviour:
   - {fileID: 2250622922178282108, guid: 454473edb16d0dd4b8549b1a14f9f7e1, type: 3}
   - {fileID: 8502762379922548793, guid: e8e1850bd8e10d145afb836904534843, type: 3}
   - {fileID: 8968818553609318498, guid: fc58685bf712dce4e9c382c59bdc49f2, type: 3}
+  bossPref: {fileID: 7215764223476193976, guid: d1948b0312077fd4d9dff737bae54e17, type: 3}
+  hasBoss: 1
   enemyParent: {fileID: 458868554}
   youWinScreen: {fileID: 1317308488}
 --- !u!1 &2050463698
@@ -9343,6 +9449,10 @@ PrefabInstance:
     - target: {fileID: 2455197192026705819, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602476252943402307, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+      propertyPath: isInBattle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8278848163751686013, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
       propertyPath: m_Name

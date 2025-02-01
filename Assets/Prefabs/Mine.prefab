@@ -115,7 +115,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 3
 --- !u!114 &195705969333271216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +271,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 349272665480685082, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 419266339756469427, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_Value
       value: 10
@@ -373,11 +377,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3186291678967283284, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3186291678967283284, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3966090090307443472, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_Layer

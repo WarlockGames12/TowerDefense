@@ -103,6 +103,7 @@ MonoBehaviour:
   enemAnim: {fileID: 0}
   movementSpeed: 2.5
   lookSpeed: 250
+  damage: 10
   shootsBack: 0
   giveCoins: 10
   lives: 10

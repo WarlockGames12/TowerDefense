@@ -57,11 +57,11 @@ public class PlayerUI : MonoBehaviour
         lateAnim.enabled = true;
     }
 
-    public void DepleteHealth() => StartCoroutine(GiveDamage());
+    public void DepleteHealth(int damage) => StartCoroutine(GiveDamage(damage));
 
-    private IEnumerator GiveDamage()
+    private IEnumerator GiveDamage(int damaging)
     {
-        playerHealth -= 5;
+        playerHealth -= damaging;
         if (isFlashing)
             yield break;
 

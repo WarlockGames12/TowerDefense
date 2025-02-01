@@ -14,13 +14,14 @@ namespace Enemy
 
         [Header("Enemy Settings: ")]
         [SerializeField] private Animator enemAnim = null;
-        [SerializeField][Range(0, 15)] private float movementSpeed;
-        [SerializeField][Range(0, 500)] private float lookSpeed;
+        [SerializeField] [Range(0, 15)] private float movementSpeed;
+        [SerializeField] [Range(0, 500)] private float lookSpeed;
+        [SerializeField] [Range(0, 100)] private int damage;
         [SerializeField] private bool shootsBack;
         public int giveCoins;
 
         [Header("Enemy Health Settings: ")]
-        [SerializeField][Range(0, 15)] private int lives;
+        [SerializeField][Range(0, 250)] private int lives;
         [SerializeField] private Slider enemyLives;
 
         [Header("Shooting Settings: ")]
@@ -274,7 +275,7 @@ namespace Enemy
         // ReSharper disable Unity.PerformanceAnalysis
         private void OnReachEnd()
         {
-            _playerUI.DepleteHealth();
+            _playerUI.DepleteHealth(damage);
             OnReachEndAction?.Invoke();
             Destroy(gameObject);
         }

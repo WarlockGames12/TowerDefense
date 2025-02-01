@@ -24,25 +24,28 @@ public class CrossbowTower : MonoBehaviour
     private Transform _target = null;
     private readonly List<Transform> _enemiesInRange = new();
     private bool _isShooting;
+    private Rigidbody2D _rb;
 
     private bool _shootOnce;
     public int CurrentLives;
     private bool isFlashing;
 
-    // Start is called before the first frame update
     private void Start()
     {
         CurrentLives = lives;
         towerLives.value = CurrentLives;
 
+        _rb = GetComponent<Rigidbody2D>();
+        _rb.freezeRotation = true;
+
         var childCollider = GetComponentInChildren<CircleCollider2D>();
+        
         var mainCollider = GetComponent<BoxCollider2D>();
         Physics2D.IgnoreCollision(childCollider, mainCollider);
 
         StartCoroutine(TargetEnemy());
     }
 
-    // Update is called once per frame
     private void Update()
     {
         towerLives.value = CurrentLives;
@@ -56,6 +59,7 @@ public class CrossbowTower : MonoBehaviour
 
         var dir = _target.position - transform.position;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        _rb.freezeRotation = false;
 
         var targetRot = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotSpeed * Time.deltaTime);
@@ -73,7 +77,12 @@ public class CrossbowTower : MonoBehaviour
                 StartCoroutine(Shoot());
 
             if (_target == null)
+            {
                 _isShooting = false;
+                crossbowAnim.Play(0, 0, 0f);
+                _rb.freezeRotation = true;
+            }
+               
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -98,7 +107,6 @@ public class CrossbowTower : MonoBehaviour
                     else
                         Debug.LogError("Projectile script is missing on the projectile prefab!");
                 }
-                // yield return new WaitForSeconds(delayDur);
                 crossbowAnim.Play(0, 0, 0f);
             }
         }
@@ -160,14 +168,9 @@ public class CrossbowTower : MonoBehaviour
         isFlashing = false;
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Enemy"))
-            _enemiesInRange.Add(collision.transform);
-
-
-        if (collision.CompareTag("EnemyBullet"))
+        if (collision.gameObject.CompareTag("EnemyBullet"))
         {
             var enemyProjectile = collision.gameObject.GetComponent<EnemyProjectile>();
             CurrentLives -= enemyProjectile.damage;
@@ -184,11 +187,18 @@ public class CrossbowTower : MonoBehaviour
 
             if (CurrentLives <= 0)
             {
-                Instantiate(enemyProjectile.bloodSplatter[Random.Range(1, 4)], transform.position, Quaternion.identity);
+                Instantiate(enemyProjectile.bloodSplatter[1], transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
             Destroy(collision.gameObject);
         }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+            _enemiesInRange.Add(collision.transform);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
