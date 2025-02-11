@@ -63,9 +63,9 @@ public class GenerateMap : MonoBehaviour
             var validMoves = new List<Vector2Int>();
 
             Vector2Int[] moves = {
-                new Vector2Int(1, 0),  
-                new Vector2Int(0, 1),  
-                new Vector2Int(0, -1)  
+                new(1, 0),  
+                new(0, 1),  
+                new(0, -1)  
             };
 
             foreach (var move in moves)

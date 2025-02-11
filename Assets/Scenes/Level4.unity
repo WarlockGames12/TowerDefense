@@ -6656,6 +6656,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1990101278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1536931656 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6158689706738264573, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+  m_PrefabInstance: {fileID: 905359567702491813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1559111341
 GameObject:
   m_ObjectHideFlags: 0
@@ -9007,9 +9012,13 @@ MonoBehaviour:
   - {fileID: 2250622922178282108, guid: 454473edb16d0dd4b8549b1a14f9f7e1, type: 3}
   - {fileID: 8502762379922548793, guid: e8e1850bd8e10d145afb836904534843, type: 3}
   - {fileID: 8968818553609318498, guid: fc58685bf712dce4e9c382c59bdc49f2, type: 3}
-  bossPref: {fileID: 3378713785998389930, guid: f162afff2b1cb0f45a4f028ab1e92831, type: 3}
+  bossPref: {fileID: 164204416167864660, guid: 0b956dfda590b5f41b65f92f3c75a47e, type: 3}
   hasBoss: 1
   enemyParent: {fileID: 458868554}
+  musicTheme: {fileID: 1536931656}
+  musicChange:
+  - {fileID: 8300000, guid: 2a12c319fcbb2df4ab23d8bfbce21244, type: 3}
+  - {fileID: 0}
   youWinScreen: {fileID: 1317308488}
 --- !u!1 &2050463698
 GameObject:

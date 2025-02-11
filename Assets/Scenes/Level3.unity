@@ -538,7 +538,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e91b006f808dea54cad46c3022f9cf2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.033422947, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3856,7 +3856,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 9a5f0512bf41f4a469dba5660d18c05a, type: 3}
   m_Color: {r: 0.8207547, g: 0.80914026, b: 0.80914026, a: 1}
   m_FlipX: 0
@@ -4257,7 +4257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.15447235, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -4588,7 +4588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.033422947, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4853,7 +4853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.012079239, g: 0, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -5314,7 +5314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.10007763, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6401,7 +6401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6928441737539826821, guid: e1683acb32bea11468ddfdd64ddedaba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.1139
+      value: 25.1557
       objectReference: {fileID: 0}
     - target: {fileID: 6928441737539826821, guid: e1683acb32bea11468ddfdd64ddedaba, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6441,7 +6441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9103024334282498129, guid: e1683acb32bea11468ddfdd64ddedaba, type: 3}
       propertyPath: m_Size.x
-      value: 9.576661
+      value: 9.593365
       objectReference: {fileID: 0}
     - target: {fileID: 9103024334282498129, guid: e1683acb32bea11468ddfdd64ddedaba, type: 3}
       propertyPath: m_Size.y
@@ -8624,7 +8624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.033422947, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8833,7 +8833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.033422947, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8914,7 +8914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.012079239, g: 0, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -9119,6 +9119,10 @@ MonoBehaviour:
   bossPref: {fileID: 3378713785998389930, guid: f162afff2b1cb0f45a4f028ab1e92831, type: 3}
   hasBoss: 1
   enemyParent: {fileID: 458868554}
+  musicTheme: {fileID: 905359567702491814}
+  musicChange:
+  - {fileID: 8300000, guid: 2a12c319fcbb2df4ab23d8bfbce21244, type: 3}
+  - {fileID: 8300000, guid: 484b0c994e543a5449df357065e9ef38, type: 3}
   youWinScreen: {fileID: 1317308488}
 --- !u!1 &2050463698
 GameObject:
@@ -9588,13 +9592,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5602476252943402307, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
-      propertyPath: isInBattle
+      propertyPath: isOnMenu
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602476252943402307, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+      propertyPath: isInBattle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6158689706738264573, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: e1e06b99a86e2954f81391951e9ac422, type: 3}
+      objectReference: {fileID: 8300000, guid: c0db50a1d0e7d034eb427c29a8abea35, type: 3}
     - target: {fileID: 8278848163751686013, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -9604,6 +9612,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+--- !u!82 &905359567702491814 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6158689706738264573, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+  m_PrefabInstance: {fileID: 905359567702491813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

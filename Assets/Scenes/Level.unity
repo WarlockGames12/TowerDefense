@@ -233,6 +233,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &137135078 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6158689706738264573, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+  m_PrefabInstance: {fileID: 905359567702491813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &137890872
 GameObject:
   m_ObjectHideFlags: 0
@@ -8982,6 +8987,10 @@ MonoBehaviour:
   bossPref: {fileID: 7215764223476193976, guid: d1948b0312077fd4d9dff737bae54e17, type: 3}
   hasBoss: 1
   enemyParent: {fileID: 458868554}
+  musicTheme: {fileID: 137135078}
+  musicChange:
+  - {fileID: 8300000, guid: 2a12c319fcbb2df4ab23d8bfbce21244, type: 3}
+  - {fileID: 8300000, guid: d875baea05f011d4db3d092b92524efd, type: 3}
   youWinScreen: {fileID: 1317308488}
 --- !u!1 &2050463698
 GameObject:
@@ -9451,8 +9460,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5602476252943402307, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
-      propertyPath: isInBattle
+      propertyPath: isOnMenu
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602476252943402307, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
+      propertyPath: isInBattle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8278848163751686013, guid: 75b770a545bdcd44f8f09f4be2196e49, type: 3}
       propertyPath: m_Name

@@ -29,6 +29,7 @@ public class CrossbowTower : MonoBehaviour
     private bool _shootOnce;
     public int CurrentLives;
     private bool isFlashing;
+    private EnemyProjectile _enemyProjectile;
 
     private void Start()
     {
@@ -48,9 +49,16 @@ public class CrossbowTower : MonoBehaviour
 
     private void Update()
     {
-        towerLives.value = CurrentLives;
-        GetComponentInChildren<CircleCollider2D>().radius = detectionRange;
-        RotateTowardsTarget();
+        if (_enemyProjectile != null && _enemyProjectile.isLightning)
+        {
+
+        }
+        else
+        {
+            towerLives.value = CurrentLives;
+            GetComponentInChildren<CircleCollider2D>().radius = detectionRange;
+            RotateTowardsTarget();
+        }
     }
 
     private void RotateTowardsTarget()
@@ -166,6 +174,7 @@ public class CrossbowTower : MonoBehaviour
         }
 
         isFlashing = false;
+        _enemyProjectile = null;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -174,6 +183,7 @@ public class CrossbowTower : MonoBehaviour
         {
             var enemyProjectile = collision.gameObject.GetComponent<EnemyProjectile>();
             CurrentLives -= enemyProjectile.damage;
+            _enemyProjectile = collision.gameObject.GetComponent<EnemyProjectile>();
 
             var source = Instantiate(enemyProjectile.enemyHit, transform.position, Quaternion.identity);
             enemyProjectile.enemyHit.clip = CurrentLives > 0 ? enemyProjectile.enemySound[0] : enemyProjectile.enemySound[1];
@@ -190,7 +200,7 @@ public class CrossbowTower : MonoBehaviour
                 Instantiate(enemyProjectile.bloodSplatter[1], transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
-            Destroy(collision.gameObject);
+            // Destroy(collision.gameObject);
         }
     }
 

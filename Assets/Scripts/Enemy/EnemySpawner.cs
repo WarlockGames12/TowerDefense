@@ -19,6 +19,10 @@ namespace Enemy
         [SerializeField] private bool hasBoss;
         [SerializeField] private Transform enemyParent;
 
+        [Header("For Boss Only Settings: ")]
+        [SerializeField] private AudioSource musicTheme;
+        [SerializeField] private AudioClip[] musicChange;
+
         [Header("You Win Method: ")]
         [SerializeField] private GameObject youWinScreen;
 
@@ -27,6 +31,7 @@ namespace Enemy
         private int _enemiesCanBeSpawned = 5;
         private readonly List<GameObject> _activeEnemies = new();
         private bool _waitOnce;
+        private bool once;
 
         private void Start()
         {
@@ -82,7 +87,14 @@ namespace Enemy
                     if (_currentWave == 7)
                         showCurrentWaveAndNextWaveDelay[1].text = $"Finishing Level In: {timer} seconds!";
                     else if (_currentWave == 6 && hasBoss)
+                    {
                         showCurrentWaveAndNextWaveDelay[1].text = $"Boss Incoming In: {timer} seconds!";
+                        if (!once)
+                        {
+                            once = true;
+                            StartCoroutine(TransitionToBossMusic(0.5f));
+                        }
+                    }
                     else
                         showCurrentWaveAndNextWaveDelay[1].text = $"Next Wave In: {timer} seconds";
                     yield return new WaitForSeconds(1f);
@@ -98,6 +110,55 @@ namespace Enemy
                 Time.timeScale = 0; 
             }
                 
+        }
+
+        private IEnumerator TransitionToBossMusic(float waitDur)
+        {
+            for (var t = 0f; t < waitDur; t += Time.deltaTime)
+            {
+                musicTheme.volume = Mathf.Lerp(1, 0, t / waitDur);
+                yield return null;
+            }
+
+            musicTheme.volume = 0; 
+            yield return new WaitForSeconds(0.1f); 
+
+            if (musicChange.Length > 0)
+            {
+                musicTheme.clip = musicChange[0]; 
+                musicTheme.loop = true;
+                musicTheme.Play();
+
+                for (var t = 0f; t < waitDur; t += Time.deltaTime)
+                {
+                    musicTheme.volume = Mathf.Lerp(0, 1, t / waitDur);
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(14.4f); 
+
+                for (var t = 0f; t < waitDur; t += Time.deltaTime)
+                {
+                    musicTheme.volume = Mathf.Lerp(1, 0, t / waitDur);
+                    yield return null;
+                }
+                musicTheme.volume = 0;
+            }
+
+            if (musicChange.Length > 1)
+            {
+                musicTheme.clip = musicChange[1]; 
+                musicTheme.loop = true; 
+                musicTheme.Play();
+                musicTheme.volume = 0; 
+
+                for (var t = 0f; t < waitDur; t += Time.deltaTime)
+                {
+                    musicTheme.volume = Mathf.Lerp(0, 1, t / waitDur);
+                    yield return null;
+                }
+                musicTheme.volume = 1; 
+            }
         }
 
         private void SpawnEnemy()

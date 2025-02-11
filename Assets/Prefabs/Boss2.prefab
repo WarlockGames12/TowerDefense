@@ -107,7 +107,7 @@ MonoBehaviour:
   damage: 100
   shootsBack: 1
   giveCoins: 15
-  lives: 150
+  lives: 100
   enemyLives: {fileID: 5347516380399757186}
   shootingRange: 15
   shootCooldown: 0.683
@@ -220,11 +220,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 419266339756469427, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_Value
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 419266339756469427, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_MaxValue
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1875639051959883176, guid: 5db0d32f378421e449d6ab830c050570, type: 3}
       propertyPath: m_Pivot.x

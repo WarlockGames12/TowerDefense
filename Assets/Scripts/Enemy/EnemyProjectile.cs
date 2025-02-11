@@ -15,6 +15,7 @@ namespace Enemy
         public AudioClip[] enemySound;
         public GameObject[] bloodSplatter;
         [Range(0, 5)] public int damage;
+        public bool isLightning;
 
         private Vector2 _dir;
         // private bool isAbleToDamage = true;
@@ -34,6 +35,9 @@ namespace Enemy
                     Physics2D.IgnoreCollision(GetComponent<Collider2D>(), childCollider);
             }
         }
+
+
+        private void OnCollisionEnter2D(Collision2D collision) => Destroy(gameObject);
 
     }
 }

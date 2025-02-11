@@ -7,6 +7,7 @@ public class GoldMine : MonoBehaviour
 {
 
     [Header("Gold Mine Settings: ")]
+    [SerializeField] private AudioSource goldGrab;
     [SerializeField] private int amountCoinsDug;
     [SerializeField][Range(0, 15)] private float waitTime;
     [SerializeField] private Sprite[] showSprite;
@@ -90,6 +91,7 @@ public class GoldMine : MonoBehaviour
 
         if (_currentAmount > 0)
         {
+            goldGrab.Play();
             _playerUI.GiveCoinAmount(_currentAmount);
             _currentAmount = 0;
 
